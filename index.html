@@ -1,11 +1,623 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1200" />
+  <title>HomeClub — Coming Soon</title>
+
+  <style>
+    :root{
+      --bg:#0b0f16;
+      --panel:rgba(255,255,255,0.06);
+      --panel2:rgba(255,255,255,0.10);
+      --border:rgba(255,255,255,0.14);
+      --border2:rgba(255,255,255,0.10);
+      --text:rgba(255,255,255,0.92);
+      --muted:rgba(255,255,255,0.70);
+      --muted2:rgba(255,255,255,0.55);
+      --accent:#c8ff5a;
+      --shadow:0 28px 80px rgba(0,0,0,0.45);
+      --radius-xl:28px;
+      --radius-lg:20px;
+      --radius-md:14px;
+      --max:1120px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 600px at 20% 10%, rgba(200,255,90,0.10), transparent 60%),
+        radial-gradient(900px 520px at 80% 30%, rgba(110,168,255,0.10), transparent 62%),
+        radial-gradient(1000px 640px at 50% 100%, rgba(255,255,255,0.06), transparent 60%),
+        var(--bg);
+      line-height:1.35;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .wrap{ padding:24px 0 30px; min-height:100%; }
+
+    .frame{
+      width:var(--max);
+      margin:0 auto;
+      padding:20px;
+      border-radius:calc(var(--radius-xl) + 10px);
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.18);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .frame::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 280px at 10% 0%, rgba(255,255,255,0.08), transparent 60%),
+        radial-gradient(560px 320px at 90% 10%, rgba(255,255,255,0.06), transparent 55%),
+        radial-gradient(700px 420px at 50% 100%, rgba(255,255,255,0.06), transparent 60%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .inner{
+      position:relative;
+      z-index:1;
+      border-radius:var(--radius-xl);
+      border:1px solid var(--border2);
+      padding:18px;
+      background:rgba(0,0,0,0.18);
+    }
+
+    /* HERO */
+    .hero{
+      border-radius:var(--radius-xl);
+      border:1px solid var(--border);
+      background:
+        radial-gradient(520px 260px at 14% 22%, rgba(200,255,90,0.14), transparent 62%),
+        radial-gradient(520px 260px at 86% 10%, rgba(110,168,255,0.14), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow:hidden;
+      position:relative;
+      padding:18px;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(900px 220px at 50% 0%, rgba(255,255,255,0.06), transparent 55%),
+        radial-gradient(800px 260px at 50% 100%, rgba(0,0,0,0.22), transparent 65%);
+      pointer-events:none;
+      opacity:.95;
+    }
+
+    .hero__topbar{
+      position:relative;
+      z-index:1;
+      height:56px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(0,0,0,0.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      user-select:none;
+    }
+
+    .mark{
+      width:18px; height:18px;
+      transform:rotate(45deg);
+      border-radius:4px;
+      border:1px solid rgba(255,255,255,0.55);
+      background:rgba(255,255,255,0.06);
+      box-shadow:0 10px 22px rgba(0,0,0,0.28);
+    }
+
+    .brand__name{
+      font-weight:800;
+      letter-spacing:0.2px;
+      font-size:16px;
+      line-height:1.1;
+    }
+
+    .brand__sub{
+      display:block;
+      margin-top:2px;
+      font-size:12px;
+      color:var(--muted2);
+      font-weight:600;
+      letter-spacing:0.18px;
+    }
+
+    .hero__content{
+      position:relative;
+      z-index:1;
+      padding:18px 14px 6px;
+      text-align:center;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(0,0,0,0.14);
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .dot{
+      width:8px; height:8px;
+      border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 0 6px rgba(200,255,90,0.14);
+    }
+
+    .hero h1{
+      margin:14px auto 0;
+      width:860px;
+      font-size:44px;
+      letter-spacing:-0.03em;
+      line-height:1.06;
+      font-weight:850;
+    }
+
+    .hero p{
+      margin:12px auto 0;
+      width:760px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .hero__divider{
+      margin:18px auto 0;
+      width:820px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    }
+
+    .hero__form{
+      position:relative;
+      z-index:1;
+      margin:16px auto 0;
+      width:980px;
+      padding:14px;
+      border-radius:var(--radius-xl);
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(0,0,0,0.14);
+      box-shadow:0 18px 55px rgba(0,0,0,0.35);
+    }
+
+    .formgrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 220px;
+      gap:12px;
+      align-items:start;
+    }
+
+    .field{ display:flex; flex-direction:column; gap:8px; }
+    .label{ font-size:12px; color:var(--muted2); letter-spacing:0.2px; }
+
+    .input{
+      width:100%;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.18);
+      background:rgba(0,0,0,0.18);
+      color:var(--text);
+      padding:12px 14px;
+      outline:none;
+      box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    }
+    .input::placeholder{ color:rgba(255,255,255,0.45); }
+
+    .btn{
+      margin-top:20px;
+      width:100%;
+      border:0;
+      border-radius:999px;
+      padding:13px 16px;
+      cursor:pointer;
+      font-weight:850;
+      letter-spacing:0.2px;
+      color:rgba(10,12,16,0.95);
+      background:linear-gradient(180deg, rgba(200,255,90,1), rgba(200,255,90,0.78));
+      box-shadow:0 18px 45px rgba(200,255,90,0.14), 0 22px 60px rgba(0,0,0,0.40);
+    }
+
+    .hero__note{
+      margin-top:10px;
+      text-align:center;
+      color:var(--muted2);
+      font-size:12px;
+    }
+
+    /* BENEFITS (richer + icons) */
+    .benefits{
+      text-align:center;
+      padding: 22px 10px 0;
+    }
+
+    .benefits__title{
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+
+    .benefits__subtitle{
+      margin: 9px auto 0;
+      width: 820px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cards{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .card{
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.14);
+      background:
+        radial-gradient(260px 160px at 20% 10%, rgba(200,255,90,0.10), transparent 65%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      padding: 16px 16px 14px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      min-height: 150px;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.28);
+    }
+
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(520px 200px at 80% 0%, rgba(255,255,255,0.06), transparent 60%);
+      pointer-events:none;
+      opacity: .85;
+    }
+
+    .card__top{
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      gap: 12px;
+    }
+
+    .iconBox{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.14);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .iconBox svg{
+      width: 20px;
+      height: 20px;
+      opacity: 0.95;
+    }
+
+    .card h3{
+      margin:0;
+      font-size:14px;
+      letter-spacing:0.2px;
+    }
+
+    .card p{
+      position:relative;
+      z-index:1;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      padding-right: 6px;
+    }
+
+    .card__meta{
+      position:relative;
+      z-index:1;
+      margin-top: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.12);
+    }
+
+    .chip i{
+      width: 6px; height: 6px;
+      border-radius: 999px;
+      background: rgba(200,255,90,0.85);
+      box-shadow: 0 0 0 5px rgba(200,255,90,0.10);
+      display:inline-block;
+    }
+
+    /* Contact + footer */
+    .contact{
+      text-align:center;
+      margin: 18px 0 6px;
+    }
+
+    .contact a{
+      display:inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px dashed rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.88);
+      background: rgba(0,0,0,0.10);
+    }
+
+    .footer{
+      margin-top: 12px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.18);
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .copy{ color: var(--muted2); font-size: 12px; }
+
+    .pill{
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      padding: 8px 12px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+    }
+  </style>
 </head>
+
 <body>
-    
+  <div class="wrap">
+    <main class="frame">
+      <div class="inner">
+
+        <!-- HERO -->
+        <section class="hero" aria-label="HomeClub hero">
+          <div class="hero__topbar">
+            <div class="brand">
+              <i class="mark" aria-hidden="true"></i>
+              <div>
+                <div class="brand__name">HomeClub</div>
+                <span class="brand__sub">Pre-Launch</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__content">
+            <div class="badge">
+              <span class="dot" aria-hidden="true"></span>
+              <span><strong>Launching Soon</strong> — join the waitlist</span>
+            </div>
+
+            <h1>Protect your home with proactive care and organized records</h1>
+            <p>
+              HomeClub helps homeowners stay ahead with annual inspections, 3D documentation, and a single place
+              to track property records — so you can feel confident year-round.
+            </p>
+
+            <div class="hero__divider"></div>
+
+            <div class="hero__form" aria-label="Waitlist form">
+              <form action="#" method="post" autocomplete="on">
+                <div class="formgrid">
+                  <div class="field">
+                    <span class="label">First Name *</span>
+                    <input class="input" type="text" name="first_name" placeholder="First Name" required />
+                  </div>
+
+                  <div class="field">
+                    <span class="label">Last Name *</span>
+                    <input class="input" type="text" name="last_name" placeholder="Last Name" required />
+                  </div>
+
+                  <div class="field">
+                    <span class="label">Email Address *</span>
+                    <input class="input" type="email" name="email" placeholder="Email Address" required />
+                  </div>
+
+                  <div class="field">
+                    <span class="label">Zip Code *</span>
+                    <input
+                      class="input"
+                      type="text"
+                      name="zip"
+                      placeholder="Zip Code"
+                      required
+                      pattern="[0-9]{5}(-[0-9]{4})?"
+                      title="Please enter a valid ZIP code (e.g., 12345 or 12345-6789)."
+                    />
+                  </div>
+
+                  <button class="btn" type="submit">Notify Me</button>
+                </div>
+
+                <div class="hero__note">
+                  Thanks — we’ll email you when HomeClub is ready. Unsubscribe anytime.
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- BENEFITS (with icons + richer) -->
+        <section class="benefits" aria-label="Membership benefits">
+          <h2 class="benefits__title">Get peace of mind with a HomeClub membership</h2>
+          <p class="benefits__subtitle">
+            A simple way to stay on top of your home. Organized records, proactive checkups, and support when you need it.
+          </p>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card__top">
+                <div class="iconBox" aria-hidden="true">
+                  <!-- calendar/check -->
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M7 3v3M17 3v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M4.5 9.5h15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M6.5 6.5h11A2 2 0 0 1 19.5 8.5v11A2 2 0 0 1 17.5 21.5h-11A2 2 0 0 1 4.5 19.5v-11A2 2 0 0 1 6.5 6.5Z" stroke="currentColor" stroke-width="1.8" />
+                    <path d="M9 15l2 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>Annual Home Inspection</h3>
+              </div>
+              <p>Stay ahead of issues with routine checkups and a clear plan for maintenance.</p>
+              <div class="card__meta">
+                <span class="chip"><i></i>Proactive care</span>
+                <span class="chip"><i></i>Clear checklist</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card__top">
+                <div class="iconBox" aria-hidden="true">
+                  <!-- cube -->
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2.8 20 7.5v9L12 21.2 4 16.5v-9L12 2.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M12 21.2v-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M20 7.5l-8 4.7-8-4.7" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>3D Documentation</h3>
+              </div>
+              <p>Accurate imaging to capture your home’s condition for peace of mind and proof.</p>
+              <div class="card__meta">
+                <span class="chip"><i></i>Accurate records</span>
+                <span class="chip"><i></i>Fast access</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card__top">
+                <div class="iconBox" aria-hidden="true">
+                  <!-- tools -->
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M14 7l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M7 14l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M3 21l7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M13 11l7.5-7.5a4 4 0 1 1-5.7 5.7L7.3 16.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>Contractor Services</h3>
+              </div>
+              <p>When something breaks, get help coordinating reliable service and next steps.</p>
+              <div class="card__meta">
+                <span class="chip"><i></i>Trusted help</span>
+                <span class="chip"><i></i>Less stress</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card__top">
+                <div class="iconBox" aria-hidden="true">
+                  <!-- folder -->
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M3.5 7.5A2.5 2.5 0 0 1 6 5h4l2 2h6A2.5 2.5 0 0 1 20.5 9.5v9A2.5 2.5 0 0 1 18 21H6A2.5 2.5 0 0 1 3.5 18.5v-11Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>Document Storage</h3>
+              </div>
+              <p>Keep property records and essential files organized and easy to find when needed.</p>
+              <div class="card__meta">
+                <span class="chip"><i></i>One place</span>
+                <span class="chip"><i></i>Secure access</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card__top">
+                <div class="iconBox" aria-hidden="true">
+                  <!-- shield -->
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2.8 19.5 6v7.2c0 4.9-3.3 8.4-7.5 10-4.2-1.6-7.5-5.1-7.5-10V6L12 2.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M9.5 12.2 11.3 14l3.8-4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>Insurance & Claims Assistance</h3>
+              </div>
+              <p>Guidance through documentation, timelines, and the steps that matter most.</p>
+              <div class="card__meta">
+                <span class="chip"><i></i>Guided steps</span>
+                <span class="chip"><i></i>Better outcomes</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card__top">
+                <div class="iconBox" aria-hidden="true">
+                  <!-- sparkle -->
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2l1.3 5.2L18 8.5l-4.7 1.3L12 15l-1.3-5.2L6 8.5l4.7-1.3L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M19 13l.8 3.2L23 17l-3.2.8L19 21l-.8-3.2L15 17l3.2-.8L19 13Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>…and More</h3>
+              </div>
+              <p>Product updates, early features, and member-only improvements as we launch.</p>
+              <div class="card__meta">
+                <span class="chip"><i></i>Early access</span>
+                <span class="chip"><i></i>Launch news</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <div class="contact">
+          <a href="mailto:hello@homeclub.com">Contact us to learn more</a>
+        </div>
+
+        <footer class="footer" aria-label="Footer">
+          <div class="copy">© 2026 HomeClub. All rights reserved.</div>
+          <a class="pill" href="#!">Social Links</a>
+        </footer>
+
+      </div>
+    </main>
+  </div>
 </body>
 </html>
